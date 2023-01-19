@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface Props {
+  danger?: boolean;
+}
+
 export const Overlay = styled.div`
   background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(5px);
@@ -13,7 +17,7 @@ export const Overlay = styled.div`
   justify-content: center;
 `;
 
-export const Container = styled.div`
+export const Container = styled.div<Props>`
   background-color: #ffffff;
   border-radius: 4px;
   padding: 24px;
@@ -23,6 +27,8 @@ export const Container = styled.div`
 
   h1 {
     font-size: 22px;
+    color: ${({ theme, danger }) =>
+      danger ? theme.colors.danger.main : theme.colors.gray[900]};
   }
   p {
     margin-top: 8px;
