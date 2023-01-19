@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import {
   Container,
   InputSearchContainer,
@@ -19,7 +21,7 @@ export default function Home() {
 
       <Header>
         <strong>3 Contatos</strong>
-        <a href="/">Novo Contato</a>
+        <Link to="/new">Novo Contato</Link>
       </Header>
 
       <ListContainer>
@@ -29,6 +31,7 @@ export default function Home() {
             <img src={arrow} alt="Ícone de seta" />
           </button>
         </header>
+
         <Card>
           <div className="info">
             <div className="contact-name">
@@ -39,45 +42,9 @@ export default function Home() {
             <span>+55 (41)99999-9999</span>
           </div>
           <div className="actions">
-            <a href="/">
+            <Link to="/edit/1">
               <img src={edit} alt="Ícone de edição" />
-            </a>
-            <button type="button">
-              <img src={trash} alt="Ícone de lixeira" />
-            </button>
-          </div>
-        </Card>
-        <Card>
-          <div className="info">
-            <div className="contact-name">
-              <strong>Mateus Silva</strong>
-              <small>Instagram</small>
-            </div>
-            <span>email@email.com</span>
-            <span>+55 (41)99999-9999</span>
-          </div>
-          <div className="actions">
-            <a href="/">
-              <img src={edit} alt="Ícone de edição" />
-            </a>
-            <button type="button">
-              <img src={trash} alt="Ícone de lixeira" />
-            </button>
-          </div>
-        </Card>
-        <Card>
-          <div className="info">
-            <div className="contact-name">
-              <strong>Mateus Silva</strong>
-              <small>Instagram</small>
-            </div>
-            <span>email@email.com</span>
-            <span>+55 (41)99999-9999</span>
-          </div>
-          <div className="actions">
-            <a href="/">
-              <img src={edit} alt="Ícone de edição" />
-            </a>
+            </Link>
             <button type="button">
               <img src={trash} alt="Ícone de lixeira" />
             </button>
