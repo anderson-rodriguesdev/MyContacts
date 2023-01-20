@@ -1,6 +1,10 @@
-import styled from 'styled-components';
+import styled, { css } from "styled-components";
 
-export default styled.input`
+interface Props {
+  error?: boolean;
+}
+
+export default styled.input<Props>`
   width: 100%;
   height: 52px;
   padding: 0 16px;
@@ -14,4 +18,14 @@ export default styled.input`
   &:focus {
     border-color: ${({ theme }) => theme.colors.primary.main};
   }
+
+  ${({ theme, error }) =>
+    error &&
+    css`
+      color: ${theme.colors.danger.main};
+      border-color: ${theme.colors.danger.main};
+      &:focus {
+        border-color: ${({ theme }) => theme.colors.danger.main};
+      }
+    `}
 `;
