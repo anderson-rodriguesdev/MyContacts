@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import isEmailValid from "../../utils/isValidEmail";
+import useErrors from "../../hooks/useErrors";
 
 import FormGroup from "../FormGroup";
 import Input from "../Input";
@@ -18,25 +19,15 @@ export default function ContactForm({ buttonLabel }: ContactFormProps) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [category, setCategory] = useState("");
-  const [errors, setErrors] = useState(Array<Errors>);
-
-  type Errors = {
-    field?: string;
-    message?: string;
-  };
+  const { setError, removeError, getErrorMessageByFieldName } = useErrors();
 
   function handleNameChange(event: React.ChangeEvent<HTMLInputElement>) {
     setName(event.target.value);
 
     if (!event.target.value) {
-      setErrors((prevState) => [
-        ...prevState,
-        { field: "name", message: "Nome é obrigatório" },
-      ]);
+      setError({ field: "name", message: "Nome é obrigatório" });
     } else {
-      setErrors((prevState) =>
-        prevState.filter((error) => error.field !== "name")
-      );
+      removeError({ field: "name" });
     }
   }
 
@@ -44,27 +35,10 @@ export default function ContactForm({ buttonLabel }: ContactFormProps) {
     setEmail(event.target.value);
 
     if (event.target.value && !isEmailValid(event.target.value)) {
-      const errorAlreadyExists = errors.find(
-        (error) => error.field === "email"
-      );
-
-      if (errorAlreadyExists) {
-        return;
-      }
-
-      setErrors((prevState) => [
-        ...prevState,
-        { field: "email", message: "Digite um e-mail válido" },
-      ]);
+      setError({ field: "email", message: "Digite um e-mail válido" });
     } else {
-      setErrors((prevState) =>
-        prevState.filter((error) => error.field !== "email")
-      );
+      removeError({ field: "email" });
     }
-  }
-
-  function getErrorMessageByFieldName(fieldName: string) {
-    return errors.find((error) => error.field === fieldName)?.message;
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -79,21 +53,21 @@ export default function ContactForm({ buttonLabel }: ContactFormProps) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup error={getErrorMessageByFieldName("name")}>
+      <FormGroup error={getErrorMessageByFieldName({ field: "name" })}>
         <Input
           placeholder="Nome"
           value={name}
           onChange={handleNameChange}
-          error={getErrorMessageByFieldName("name") ? true : false}
+          error={getErrorMessageByFieldName({ field: "name" }) ? true : false}
         />
       </FormGroup>
 
-      <FormGroup error={getErrorMessageByFieldName("email")}>
+      <FormGroup error={getErrorMessageByFieldName({ field: "email" })}>
         <Input
           placeholder="Email"
           value={email}
           onChange={handleEmailChange}
-          error={getErrorMessageByFieldName("email") ? true : false}
+          error={getErrorMessageByFieldName({ field: "email" }) ? true : false}
         />
       </FormGroup>
 
