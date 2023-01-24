@@ -15,6 +15,7 @@ export default styled.input<Props>`
   outline: none;
   font-size: 16px;
   transition: border-color 0.3s ease-in;
+  appearance: none;
   &:focus {
     border-color: ${({ theme }) => theme.colors.primary.main};
   }
