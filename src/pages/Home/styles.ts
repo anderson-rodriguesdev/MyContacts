@@ -1,4 +1,8 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+
+interface Props {
+  orderBy: string;
+}
 
 export const Container = styled.div`
   margin-top: 32px;
@@ -50,22 +54,26 @@ export const Header = styled.header`
   }
 `;
 
-export const ListContainer = styled.div`
+export const ListHeader = styled.header<Props>`
   margin-top: 24px;
-  header {
-    margin-bottom: 8px;
+  margin-bottom: 8px;
 
-    button {
-      background: transparent;
-      border: none;
-      display: flex;
-      align-items: center;
+  button {
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
 
-      span {
-        margin-right: 8px;
-        font-weight: bold;
-        color: ${({ theme }) => theme.colors.primary.main};
-      }
+    span {
+      margin-right: 8px;
+      font-weight: bold;
+      color: ${({ theme }) => theme.colors.primary.main};
+    }
+
+    img {
+      transform: ${({ orderBy }) =>
+        orderBy === "asc" ? "rotate(180deg)" : "rotate(0deg)"};
+      transition: transform 0.3s ease-in;
     }
   }
 `;
