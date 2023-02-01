@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -11,13 +12,17 @@ import {
 import arrow from "../../assets/images/icons/arrow.svg";
 import edit from "../../assets/images/icons/edit.svg";
 import trash from "../../assets/images/icons/trash.svg";
-import { useEffect, useMemo, useState } from "react";
+
+import Loader from "../../components/Loader";
+
 import { Contact } from "../../types/contacts";
+import delay from "../../utils/delay";
 
 export default function Home() {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [orderBy, setOrderBy] = useState("asc");
   const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const filteredContacts = useMemo(() => {
     return contacts.filter((contact) =>
@@ -26,13 +31,19 @@ export default function Home() {
   }, [contacts, searchTerm]);
 
   useEffect(() => {
+    setIsLoading(true);
+
     fetch(`http://localhost:3001/contacts?orderBy=${orderBy}`)
       .then(async (response) => {
+        await delay(500);
         const json = await response.json();
         setContacts(json);
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, [orderBy]);
 
@@ -46,6 +57,7 @@ export default function Home() {
 
   return (
     <Container>
+      <Loader isLoading={isLoading} />
       <InputSearchContainer>
         <input
           value={searchTerm as string}
