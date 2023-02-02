@@ -57,6 +57,7 @@ export default function Home() {
   return (
     <Container>
       <Loader isLoading={isLoading} />
+
       <InputSearchContainer>
         <input
           value={searchTerm as string}
