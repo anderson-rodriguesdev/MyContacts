@@ -15,8 +15,9 @@ import trash from "../../assets/images/icons/trash.svg";
 
 import Loader from "../../components/Loader";
 
-import { Contact } from "../../types/contacts";
 import ContactsService from "../../services/ContactsService";
+
+import { Contact } from "../../types/contacts";
 
 export default function Home() {
   const [contacts, setContacts] = useState<Contact[]>([]);
