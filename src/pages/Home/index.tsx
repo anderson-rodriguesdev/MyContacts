@@ -7,13 +7,16 @@ import {
   Header,
   ListHeader,
   Card,
+  ErrorContainer,
 } from "./styles";
 
 import arrow from "../../assets/images/icons/arrow.svg";
 import edit from "../../assets/images/icons/edit.svg";
 import trash from "../../assets/images/icons/trash.svg";
+import sad from "../../assets/images/sad.svg";
 
 import Loader from "../../components/Loader";
+import Button from "../../components/Button";
 
 import ContactsService from "../../services/ContactsService";
 
@@ -24,6 +27,7 @@ export default function Home() {
   const [orderBy, setOrderBy] = useState("asc");
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   const filteredContacts = useMemo(() => {
     return contacts.filter((contact) =>
@@ -37,8 +41,8 @@ export default function Home() {
         setIsLoading(true);
         const contacsList = await ContactsService.listContacts(orderBy);
         setContacts(contacsList);
-      } catch (error) {
-        console.error("error", error);
+      } catch {
+        setHasError(true);
       } finally {
         setIsLoading(false);
       }
@@ -68,24 +72,38 @@ export default function Home() {
         />
       </InputSearchContainer>
 
-      <Header>
-        <strong>
-          {filteredContacts.length}
-          {filteredContacts.length === 1 ? " Contato" : " Contatos"}
-        </strong>
+      <Header hasError={hasError}>
+        {!hasError && (
+          <strong>
+            {filteredContacts.length}
+            {filteredContacts.length === 1 ? " Contato" : " Contatos"}
+          </strong>
+        )}
         <Link to="/new">Novo Contato</Link>
       </Header>
 
-      <ListHeader orderBy={orderBy}>
-        {filteredContacts && (
-          <header>
-            <button type="button" onClick={handleToggleOrderBy}>
-              <span>Nome</span>
-              <img src={arrow} alt="Ícone de seta" />
-            </button>
-          </header>
-        )}
-      </ListHeader>
+      {hasError && (
+        <ErrorContainer>
+          <img src={sad} alt="Sad Face" />
+          <div className="details">
+            <strong>Ocorreu um erro ao obter os seus contatos!</strong>
+          </div>
+          <Button type="button">Tentar Novamente</Button>
+        </ErrorContainer>
+      )}
+
+      {!hasError && (
+        <ListHeader orderBy={orderBy}>
+          {filteredContacts && (
+            <header>
+              <button type="button" onClick={handleToggleOrderBy}>
+                <span>Nome</span>
+                <img src={arrow} alt="Ícone de seta" />
+              </button>
+            </header>
+          )}
+        </ListHeader>
+      )}
 
       {filteredContacts.map((contact) => (
         <Card key={contact.id}>

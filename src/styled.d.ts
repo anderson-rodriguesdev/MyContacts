@@ -15,6 +15,7 @@ declare module "styled-components" {
       gray: {
         900: string;
         200: string;
+        100: string;
       };
       danger: {
         light: string;

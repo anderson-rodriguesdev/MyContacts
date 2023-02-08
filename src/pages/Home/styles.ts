@@ -1,7 +1,11 @@
 import styled from "styled-components";
 
-interface Props {
+interface ListHeaderProps {
   orderBy: string;
+}
+
+interface HeaderProps {
+  hasError?: boolean;
 }
 
 export const Container = styled.div`
@@ -28,10 +32,13 @@ export const InputSearchContainer = styled.div`
   }
 `;
 
-export const Header = styled.header`
+export const Header = styled.header<HeaderProps>`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: ${({ hasError }) =>
+    hasError ? "flex-end" : "space-between"};
+  border-bottom: 2px solid ${({ theme }) => theme.colors.gray[100]};
+  padding-bottom: 16px;
 
   strong {
     font-size: 24px;
@@ -54,7 +61,7 @@ export const Header = styled.header`
   }
 `;
 
-export const ListHeader = styled.header<Props>`
+export const ListHeader = styled.header<ListHeaderProps>`
   margin-top: 24px;
   margin-bottom: 8px;
 
@@ -120,6 +127,23 @@ export const Card = styled.div`
       background: transparent;
       border: none;
       margin-left: 8px;
+    }
+  }
+`;
+
+export const ErrorContainer = styled.div`
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+
+  .details {
+    margin-left: 24px;
+
+    strong {
+      font-size: 22px;
+      color: ${({ theme }) => theme.colors.danger.main};
+      display: block;
+      margin-bottom: 8px;
     }
   }
 `;
