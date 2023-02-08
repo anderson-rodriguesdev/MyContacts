@@ -87,8 +87,8 @@ export default function Home() {
           <img src={sad} alt="Sad Face" />
           <div className="details">
             <strong>Ocorreu um erro ao obter os seus contatos!</strong>
+            <Button type="button">Tentar Novamente</Button>
           </div>
-          <Button type="button">Tentar Novamente</Button>
         </ErrorContainer>
       )}
 
