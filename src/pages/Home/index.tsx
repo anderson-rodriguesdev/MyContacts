@@ -9,6 +9,7 @@ import {
   Card,
   ErrorContainer,
   EmptyListContainer,
+  SearchNotFoundContainer,
 } from "./styles";
 
 import arrow from "../../assets/images/icons/arrow.svg";
@@ -126,11 +127,15 @@ export default function Home() {
             </EmptyListContainer>
           )}
 
-          {/* {contacts.length > 0 && filteredContacts.length < 1 && (
-            <div>
+          {contacts.length > 0 && filteredContacts.length < 1 && (
+            <SearchNotFoundContainer>
               <img src={magnifierQuestion} alt="Magnifier Question" />
-            </div>
-          )} */}
+              <p>
+                Nenhum resultado foi encontrado para
+                <strong> {searchTerm}</strong>
+              </p>
+            </SearchNotFoundContainer>
+          )}
 
           {filteredContacts.length > 0 && (
             <ListHeader orderBy={orderBy}>
