@@ -16,6 +16,7 @@ import edit from "../../assets/images/icons/edit.svg";
 import trash from "../../assets/images/icons/trash.svg";
 import sad from "../../assets/images/sad.svg";
 import emptyBox from "../../assets/images/empty-box.svg";
+import magnifierQuestion from "../../assets/images/magnifier-question.svg";
 
 import Loader from "../../components/Loader";
 import Button from "../../components/Button";
@@ -125,16 +126,22 @@ export default function Home() {
             </EmptyListContainer>
           )}
 
-          <ListHeader orderBy={orderBy}>
-            {filteredContacts && contacts.length > 0 && (
+          {/* {contacts.length > 0 && filteredContacts.length < 1 && (
+            <div>
+              <img src={magnifierQuestion} alt="Magnifier Question" />
+            </div>
+          )} */}
+
+          {filteredContacts.length > 0 && (
+            <ListHeader orderBy={orderBy}>
               <header>
                 <button type="button" onClick={handleToggleOrderBy}>
                   <span>Nome</span>
                   <img src={arrow} alt="Ícone de seta" />
                 </button>
               </header>
-            )}
-          </ListHeader>
+            </ListHeader>
+          )}
 
           {filteredContacts.map((contact) => (
             <Card key={contact.id}>
