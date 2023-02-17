@@ -12,13 +12,18 @@ import Button from "../Button";
 
 import { Form, ButtonContainer } from "./styles";
 
-import { Category } from "../../types/category";
+import Category from "../../types/category";
+import NewContactType from "../../types/newContactsType";
 
 interface ContactFormProps {
   buttonLabel: string;
+  onSubmit: ({}: NewContactType) => void;
 }
 
-export default function ContactForm({ buttonLabel }: ContactFormProps) {
+export default function ContactForm({
+  buttonLabel,
+  onSubmit,
+}: ContactFormProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -70,12 +75,7 @@ export default function ContactForm({ buttonLabel }: ContactFormProps) {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log({
-      name,
-      email,
-      phone,
-      categoryId,
-    });
+    onSubmit({ name, email, phone, categoryId });
   }
 
   return (
