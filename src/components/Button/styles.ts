@@ -4,7 +4,7 @@ interface Props {
   danger?: boolean;
 }
 
-export default styled.button<Props>`
+export const ButtonStyle = styled.button<Props>`
   height: 52px;
   padding: 0 16px;
   border: none;
@@ -15,6 +15,9 @@ export default styled.button<Props>`
   color: #ffffff;
   border-radius: 4px;
   transition: background 0.3s ease-in;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background: ${({ theme }) => theme.colors.primary.light};

@@ -17,7 +17,7 @@ import NewContactType from "../../types/newContactsType";
 
 interface ContactFormProps {
   buttonLabel: string;
-  onSubmit: ({}: NewContactType) => void;
+  onSubmit: ({}: NewContactType) => Promise<void>;
 }
 
 export default function ContactForm({
@@ -30,6 +30,8 @@ export default function ContactForm({
   const [categoryId, setCategoryId] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const { errors, setError, removeError, getErrorMessageByFieldName } =
     useErrors();
 
@@ -73,9 +75,12 @@ export default function ContactForm({
     setPhone(formatPhone(event.target.value));
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    onSubmit({ name, email, phone, categoryId });
+    setIsSubmitting(true);
+    await onSubmit({ name, email, phone, categoryId });
+
+    setIsSubmitting(false);
   }
 
   return (
@@ -86,6 +91,7 @@ export default function ContactForm({
           value={name}
           onChange={handleNameChange}
           error={getErrorMessageByFieldName({ field: "name" }) ? true : false}
+          disabled={isSubmitting}
         />
       </FormGroup>
 
@@ -96,6 +102,7 @@ export default function ContactForm({
           value={email}
           onChange={handleEmailChange}
           error={getErrorMessageByFieldName({ field: "email" }) ? true : false}
+          disabled={isSubmitting}
         />
       </FormGroup>
 
@@ -105,6 +112,7 @@ export default function ContactForm({
           value={phone}
           maxLength={15}
           onChange={handlePhoneChange}
+          disabled={isSubmitting}
         />
       </FormGroup>
 
@@ -112,7 +120,7 @@ export default function ContactForm({
         <Select
           value={categoryId}
           onChange={(event) => setCategoryId(event.target.value)}
-          disabled={isLoadingCategories}
+          disabled={isLoadingCategories || isSubmitting}
         >
           <option value="">Sem categoria</option>
 
@@ -125,7 +133,7 @@ export default function ContactForm({
       </FormGroup>
 
       <ButtonContainer>
-        <Button type="submit" disabled={!isFormValid}>
+        <Button type="submit" disabled={!isFormValid} isLoading={isSubmitting}>
           {buttonLabel}
         </Button>
       </ButtonContainer>
